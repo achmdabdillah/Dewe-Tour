@@ -1,3 +1,3 @@
-release: sequelize db:migrate:undo:all; sequelize db:migrate; db:seed:undo:all; npx sequelize-cli db:seed:all;
+release: npx sequelize-cli db:migrate:undo:all; npx sequelize-cli db:migrate; npx sequelize-cli db:seed:undo:all; npx sequelize-cli db:seed:all;
 
 web:node index.js
