@@ -124,7 +124,7 @@ const DetailTrip = () => {
 					<p className="avenir">{trip.country?.name}</p>
 				</div>
 				{trip?.length === 0 ? (
-					<div class="container">
+					<div className="container">
 						<div className="d-flex justify-content-center align-items-center">
 							<Loader
 								type="ThreeDots"

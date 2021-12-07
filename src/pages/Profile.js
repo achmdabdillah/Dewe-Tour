@@ -137,7 +137,7 @@ const Profile = () => {
 						</div>
 					</div>
 					<div className="profile-image">
-						<label for="image">
+						<label htmlFor="image">
 							<img
 								className="box pointer"
 								src={
@@ -239,7 +239,7 @@ const Profile = () => {
 											<div className="row row-cols-2">
 												<div className="col pbody-info">
 													<h1>Date Trip</h1>
-													<p class="hide">
+													<p className="hide">
 														{(dateTrip = dateFormatter(item?.trip?.dateTrip))}
 													</p>
 													<p>
@@ -264,7 +264,7 @@ const Profile = () => {
 											</div>
 										</div>
 										<div className="pbody-end">
-											<label for="proof" className="marginEnd">
+											<label htmlFor="proof" className="marginEnd">
 												<img
 													className="box me-0"
 													src={
@@ -327,7 +327,7 @@ const Profile = () => {
 				<>
 					<div className="no-payment-profile">
 						<img className="img-fluid" src="/assets/no-payment.png" alt="" />
-						<h1 class="avenir fs-1">No Data To Show</h1>
+						<h1 className="avenir fs-1">No Data To Show</h1>
 					</div>
 				</>
 			)}

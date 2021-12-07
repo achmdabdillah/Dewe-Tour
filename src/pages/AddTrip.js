@@ -60,6 +60,7 @@ const AddTrip = () => {
 	};
 
 	const handleOnSubmit = async e => {
+		console.log('oke');
 		try {
 			e.preventDefault();
 

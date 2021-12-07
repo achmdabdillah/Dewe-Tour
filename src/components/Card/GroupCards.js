@@ -48,7 +48,7 @@ const GroupCards = ({ search }) => {
 					</div>
 				</div>
 			) : (
-				<div class="tour-cards">
+				<div className="tour-cards">
 					{state.user.status !== 'admin' ? (
 						<>
 							{data
@@ -78,14 +78,14 @@ const GroupCards = ({ search }) => {
 										}
 									>
 										<img src={trip?.images[0]} alt=""></img>
-										<div class="counter">
+										<div className="counter">
 											<p>
 												{trip?.quotaFilled ? trip?.quotaFilled : 0} /{' '}
 												{trip?.quota}
 											</p>
 										</div>
 										<p className="tour">{trip?.title}</p>
-										<div class="card-text">
+										<div className="card-text">
 											<p className="price">{formatter(trip.price)}</p>
 											<p className="country">{trip?.country?.name}</p>
 										</div>
@@ -113,14 +113,14 @@ const GroupCards = ({ search }) => {
 										onClick={() => handleClickDetail(trip.id)}
 									>
 										<img src={trip?.images[0]} alt=""></img>
-										<div class="counter">
+										<div className="counter">
 											<p>
 												{trip?.quotaFilled ? trip?.quotaFilled : 0} /{' '}
 												{trip?.quota}
 											</p>
 										</div>
 										<p className="tour">{trip?.title}</p>
-										<div class="card-text">
+										<div className="card-text">
 											<p className="price">
 												{formatter(trip?.price * trip?.quotaFilled)}
 											</p>
