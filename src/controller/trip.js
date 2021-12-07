@@ -23,17 +23,14 @@ exports.addTrip = async (req, res) => {
 
 		let imagesURL = [];
 		for (let image of images) {
-			console.log(process.env.PATHFILE + image.path);
-			const result = await cloudinary.uploader.upload(
-				process.env.PATHFILE + image.path,
-				{
-					folder: 'dewe-tour-trips',
-				}
-			);
+			const result = await cloudinary.uploader.upload(image.path, {
+				folder: 'dewe-tour-trips',
+			});
 			imagesURL.push(result.secure_url);
 		}
 		imagesURL = JSON.stringify(imagesURL);
-		console.log(imagesURL);
+		console.log(imagesURL.map(item => item));
+
 		const newTrip = await trip.create({
 			...req.body,
 			images: imagesURL,
