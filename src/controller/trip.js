@@ -21,46 +21,20 @@ exports.addTrip = async (req, res) => {
 		}
 		const { images } = req.files;
 
-		// let imagesURL = [];
+		let imagesURL = [];
 
-		// for (let image of images) {
-		// 	const result = await cloudinary.uploader.upload(image.path, {
-		// 		use_filename: true,
-		// 		folder: 'dewe-tour-trips',
-		// 	});
-		// 	imagesURL.push(result.url);
-		// }
-		// imagesURL = JSON.stringify(imagesURL);
-
-		const cloudinaryUploadMultiple = async (file, folderName) => {
-			return new Promise(resolve => {
-				cloudinary.uploader.upload(file, { folder: folderName }, (err, res) => {
-					if (err) {
-						return res.status(500).send({
-							status: 'failed',
-							message: 'Upload image error',
-						});
-					}
-
-					resolve(res.secure_url);
-				});
+		for (let image of images) {
+			const result = await cloudinary.uploader.upload(image.path, {
+				use_filename: true,
+				folder: 'dewe-tour-trips',
 			});
-		};
-
-		const allImage = [];
-		const folderName = 'dewe-tour-trips';
-		for (let file of images) {
-			const { path } = file;
-			const newPath = await cloudinaryUploadMultiple(path, folderName);
-			allImage.push(newPath);
+			imagesURL.push(result.url);
 		}
-
-		const imageFileToString = JSON.stringify(allImage);
+		imagesURL = JSON.stringify(imagesURL);
 
 		const newTrip = await trip.create({
 			...req.body,
-			// images: imagesURL,
-			images: imageFileToString,
+			images: imagesURL,
 		});
 
 		let showTrip = await trip.findOne({
