@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "node index.js",
+		"start": "nodemon index.js",
 		"client": "npm start --prefix ../client",
 		"dev": "concurrently \"npm start\" \"npm run client\""
 	},
@@ -13,6 +13,7 @@
 	"license": "ISC",
 	"dependencies": {
 		"bcrypt": "^5.0.1",
+		"cloudinary": "^1.27.1",
 		"concurrently": "^6.3.0",
 		"cors": "^2.8.5",
 		"dotenv": "^10.0.0",
