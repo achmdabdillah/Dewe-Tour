@@ -59,11 +59,11 @@ router.delete('/countries/:id', auth, isAdmin, deleteCountry);
 router.patch('/countries/:id', auth, isAdmin, updateCountry);
 
 // TRIP
-router.post('/trips', auth, isAdmin, uploadImages('images', 'trip'), addTrip);
+router.post('/trips', auth, uploadImages('images', 'trip'), addTrip);
 router.get('/trips', getTrips);
 router.get('/trips/:id', getTrip);
-router.patch('/trips/:id', auth, isAdmin, updateTrip);
-router.delete('/trips/:id', auth, isAdmin, deleteTrip);
+router.patch('/trips/:id', auth, updateTrip);
+router.delete('/trips/:id', auth, deleteTrip);
 
 // TRANSACTION
 router.post('/transactions', auth, addTransaction);
