@@ -1,7 +1,5 @@
 const { trip, country } = require('../../models');
 const cloudinary = require('../thirdparty/cloudinary');
-const rmFolder = require('../utils/rmFolder');
-const checkFolder = require('../utils/checkFolder');
 
 exports.addTrip = async (req, res) => {
 	try {
@@ -26,14 +24,14 @@ exports.addTrip = async (req, res) => {
 		let imagesURL = [];
 
 		for (let image of images) {
-			const result = await cloudinary.uploader.upload(image.path, {
-				folder: 'dewe-tour-trips',
-			});
+			const result = await cloudinary.uploader.upload(
+				process.env.PATHFILE + image.path,
+				{
+					folder: 'dewe-tour-trips',
+				}
+			);
 			imagesURL.push(result.secure_url);
-			console.log(result);
 		}
-		rmFolder('./uploads/trip');
-		checkFolder();
 		imagesURL = JSON.stringify(imagesURL);
 
 		const newTrip = await trip.create({

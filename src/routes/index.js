@@ -59,7 +59,7 @@ router.delete('/countries/:id', auth, isAdmin, deleteCountry);
 router.patch('/countries/:id', auth, isAdmin, updateCountry);
 
 // TRIP
-router.post('/trips', auth, uploadImages('images', 'trip'), addTrip);
+router.post('/trips', auth, uploadImages('images'), addTrip);
 router.get('/trips', getTrips);
 router.get('/trips/:id', getTrip);
 router.patch('/trips/:id', auth, updateTrip);
