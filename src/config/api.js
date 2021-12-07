@@ -1,25 +1,7 @@
-// export const API = () => {
-//   const baseURL = "http://localhost:5000/api/v1/";
-
-//   const executeAPI = async (endpoint, config) => {
-//     const response = await fetch(baseURL + endpoint, config);
-//     const data = await response.json();
-//     return data;
-//   };
-
-//   return {
-//     get: executeAPI,
-//     post: executeAPI,
-//     patch: executeAPI,
-//     delete: executeAPI,
-//   };
-// };
-
 import axios from 'axios';
 
 export const API = axios.create({
-	baseURL: 'http://localhost:5000/api/v1/',
-	// baseURL: 'https://dewe-tour-api1.herokuapp.com/api/v1/',
+	baseURL: 'https://dewe-tour-api1.herokuapp.com/api/v1/',
 });
 
 export const setAuthToken = async token => {

@@ -21,7 +21,6 @@ if (localStorage.token) {
 
 function App() {
 	const { state, dispatch } = useContext(AuthContext);
-	// console.log(state);
 	console.clear();
 
 	useEffect(() => {

@@ -10,7 +10,6 @@ const GroupCards = ({ search }) => {
 	const history = useHistory();
 
 	const [data, setData] = useState([]);
-	console.log(data);
 
 	const handleClickDetail = id => {
 		history.push(`/detail/${id}`);
