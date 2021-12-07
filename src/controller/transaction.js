@@ -144,7 +144,6 @@ exports.getTransactions = async (req, res) => {
 exports.getTransaction = async (req, res) => {
 	try {
 		const { idUser } = req.user;
-		console.log(idUser);
 
 		const data = await transaction.findAll({
 			where: {
@@ -252,7 +251,6 @@ exports.updateTransaction = async (req, res) => {
 				exclude: ['createdAt', 'updatedAt', 'idCountry', 'idUser'],
 			},
 		});
-		// console.log(newTransaction)
 
 		res.status(200).send({
 			status: 'success',

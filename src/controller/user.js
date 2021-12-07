@@ -26,7 +26,6 @@ exports.getUsers = async (req, res) => {
 exports.getUser = async (req, res) => {
 	try {
 		const { idUser } = req.user;
-		// console.log(idUser)
 
 		const data = await user.findOne({
 			where: {
@@ -39,7 +38,6 @@ exports.getUser = async (req, res) => {
 		if (data.profilePicture !== null) {
 			data.profilePicture = `http://localhost:5000/uploads/profilePic/${data.profilePicture}`;
 		}
-		// console.log(data.profilePicture)
 
 		if (!data) {
 			return res.status(404).send({
@@ -71,7 +69,6 @@ exports.updateUser = async (req, res) => {
 			},
 		});
 		oldUser = JSON.parse(JSON.stringify(oldUser));
-		// console.log(oldUser)
 
 		const profilePicture = req.file
 			? req.file.filename
