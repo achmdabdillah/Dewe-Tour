@@ -1,5 +1,7 @@
 const { trip, country } = require('../../models');
 const cloudinary = require('../thirdparty/cloudinary');
+const rmFolder = require('../utils/rmFolder');
+const checkFolder = require('../utils/checkFolder');
 
 exports.addTrip = async (req, res) => {
 	try {
@@ -30,6 +32,8 @@ exports.addTrip = async (req, res) => {
 			imagesURL.push(result.secure_url);
 			console.log(result);
 		}
+		rmFolder('./uploads/trip');
+		checkFolder();
 		imagesURL = JSON.stringify(imagesURL);
 
 		const newTrip = await trip.create({
