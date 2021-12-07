@@ -3,66 +3,92 @@ const cloudinary = require('../thirdparty/cloudinary');
 
 exports.addTrip = async (req, res) => {
 	try {
-		const tripExist = await trip.findOne({
-			where: {
-				title: req.body.title,
-			},
-			attributes: {
-				exclude: ['createdAt', 'updatedAt'],
-			},
-		});
+		// const tripExist = await trip.findOne({
+		// 	where: {
+		// 		title: req.body.title,
+		// 	},
+		// 	attributes: {
+		// 		exclude: ['createdAt', 'updatedAt'],
+		// 	},
+		// });
 
-		if (tripExist) {
-			res.status(400).send({
-				status: 'failed',
-				messages: 'trip already exist',
+		// if (tripExist) {
+		// 	res.status(400).send({
+		// 		status: 'failed',
+		// 		messages: 'trip already exist',
+		// 	});
+		// 	return;
+		// }
+		// const { images } = req.files;
+
+		// let imagesURL = [];
+		// for (let image of images) {
+		// 	console.log(process.env.PATHFILE + image.path);
+		// 	const result = await cloudinary.uploader.upload(
+		// 		process.env.PATHFILE + image.path,
+		// 		{
+		// 			folder: 'dewe-tour-trips',
+		// 		}
+		// 	);
+		// 	imagesURL.push(result.secure_url);
+		// }
+		// imagesURL = JSON.stringify(imagesURL);
+		// console.log(imagesURL);
+		// const newTrip = await trip.create({
+		// 	...req.body,
+		// 	images: imagesURL,
+		// });
+
+		// let showTrip = await trip.findOne({
+		// 	where: {
+		// 		id: newTrip.id,
+		// 	},
+		// 	include: {
+		// 		model: country,
+		// 		as: 'country',
+		// 		attributes: {
+		// 			exclude: ['createdAt', 'updatedAt'],
+		// 		},
+		// 	},
+		// 	attributes: {
+		// 		exclude: ['createdAt', 'updatedAt', 'idCountry'],
+		// 	},
+		// });
+
+		// showTrip = JSON.parse(JSON.stringify(showTrip));
+		// showTrip.images = JSON.parse(showTrip.images);
+
+		const { ...data } = req.body;
+
+		const multiplePicturePromise = req.files.images.map(el => {
+			return cloudinary.uploader.upload(el.path, {
+				folder: 'dewe-tour-trips',
+				use_filename: true,
+				unique_filename: true,
 			});
-			return;
-		}
-		const { images } = req.files;
-
-		let imagesURL = [];
-
-		for (let image of images) {
-			const result = await cloudinary.uploader.upload(
-				process.env.PATHFILE + image.path,
-				{
-					folder: 'dewe-tour-trips',
-				}
-			);
-			imagesURL.push(result.secure_url);
-		}
-		imagesURL = JSON.stringify(imagesURL);
-
-		const newTrip = await trip.create({
-			...req.body,
-			images: imagesURL,
 		});
 
-		let showTrip = await trip.findOne({
-			where: {
-				id: newTrip.id,
-			},
-			include: {
-				model: country,
-				as: 'country',
-				attributes: {
-					exclude: ['createdAt', 'updatedAt'],
-				},
-			},
-			attributes: {
-				exclude: ['createdAt', 'updatedAt', 'idCountry'],
-			},
-		});
+		const image = await Promise.all(multiplePicturePromise);
 
-		showTrip = JSON.parse(JSON.stringify(showTrip));
-		showTrip.images = JSON.parse(showTrip.images);
+		const newImage = image.map(el => el.url);
+		console.log(newImage);
+
+		await trip.create({
+			...data,
+			images: JSON.stringify(newImage),
+			quotaFilled: 0,
+		});
 
 		res.status(200).send({
 			status: 'success',
-			messages: 'trip succesfully added',
-			data: showTrip,
+			message: 'add trip success',
 		});
+
+		// res.status(200).send({
+		// 	status: 'success',
+		// 	messages: 'trip succesfully added',
+		// 	data: showTrip,
+		// });
 	} catch (error) {
 		console.log(error);
 		res.status(500).send({
