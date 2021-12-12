@@ -223,6 +223,7 @@ const Payment = () => {
 										onClick={() => {
 											handlePayment(item?.id);
 										}}
+										data-bs-dismiss="modal"
 										className="pay-btn fs-5"
 									>
 										Pay
