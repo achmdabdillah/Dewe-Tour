@@ -1,5 +1,4 @@
 const { trip, country } = require('../../models');
-const cloudinary = require('../thirdparty/cloudinary');
 
 exports.addTrip = async (req, res) => {
 	try {
@@ -19,21 +18,18 @@ exports.addTrip = async (req, res) => {
 			});
 			return;
 		}
-		const { images } = req.files;
 
-		let imagesURL = [];
-		for (let image of images) {
-			const result = await cloudinary.uploader.upload(image.path, {
-				folder: 'dewe-tour-trips',
-			});
-			imagesURL.push(result.secure_url);
-		}
-		imagesURL = JSON.stringify(imagesURL);
-		console.log(imagesURL.map(item => item));
+		const { images } = req.files;
+		const allImages = images.map(img => img.filename);
+		const allImagesString = JSON.stringify(allImages);
+
+		const showImagesUrl = images.map(
+			img => `http://localhost:5000/uploads/trip/${img.filename}`
+		);
 
 		const newTrip = await trip.create({
 			...req.body,
-			images: imagesURL,
+			images: allImagesString,
 		});
 
 		let showTrip = await trip.findOne({
@@ -51,40 +47,15 @@ exports.addTrip = async (req, res) => {
 				exclude: ['createdAt', 'updatedAt', 'idCountry'],
 			},
 		});
-
 		showTrip = JSON.parse(JSON.stringify(showTrip));
-		showTrip.images = JSON.parse(showTrip.images);
-
-		// const { ...data } = req.body;
-
-		// const multiplePicturePromise = req.files.images.map(el => {
-		// 	return cloudinary.uploader.upload(el.path, {
-		// 		folder: 'dewe-tour-trips',
-		// 		use_filename: true,
-		// 		unique_filename: true,
-		// 	});
-		// });
-
-		// const image = await Promise.all(multiplePicturePromise);
-
-		// const newImage = image.map(el => el.url);
-		// console.log(newImage);
-
-		// await trip.create({
-		// 	...data,
-		// 	images: JSON.stringify(newImage),
-		// 	quotaFilled: 0,
-		// });
-
-		// res.status(200).send({
-		// 	status: 'success',
-		// 	message: 'add trip success',
-		// });
 
 		res.status(200).send({
 			status: 'success',
 			messages: 'trip succesfully added',
-			data: showTrip,
+			data: {
+				...showTrip,
+				images: showImagesUrl,
+			},
 		});
 	} catch (error) {
 		console.log(error);
@@ -97,7 +68,7 @@ exports.addTrip = async (req, res) => {
 
 exports.getTrips = async (req, res) => {
 	try {
-		let trips = await trip.findAll({
+		const trips = await trip.findAll({
 			include: {
 				model: country,
 				as: 'country',
@@ -110,9 +81,15 @@ exports.getTrips = async (req, res) => {
 				exclude: ['createdAt', 'updatedAt', 'idCountry'],
 			},
 		});
-
 		trips.map(trip => {
-			trip.images = JSON.parse(trip.images);
+			const allImages = JSON.parse(trip.images);
+
+			const newImages = allImages.map(
+				images => `http://localhost:5000/uploads/trip/${images}`
+			);
+
+			trip.images = newImages;
+			return trip;
 		});
 
 		res.status(200).send({
@@ -148,8 +125,12 @@ exports.getTrip = async (req, res) => {
 			},
 		});
 
-		data = JSON.parse(JSON.stringify(data));
-		data.images = JSON.parse(data.images);
+		const allImages = JSON.parse(data.images);
+
+		const newImages = allImages.map(
+			images => `http://localhost:5000/uploads/trip/${images}`
+		);
+		data.images = newImages;
 		res.send({
 			status: 'success',
 			data,
