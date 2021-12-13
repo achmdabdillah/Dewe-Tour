@@ -115,7 +115,8 @@ const AddTrip = () => {
 			{isLoading ? (
 				<div className="container">
 					<div className="d-flex justify-content-center align-items-center fs-4 vh-100">
-						<Loader type="threeDots" color="#FFAF00" height={80} width={80} />
+						<Loader type="ThreeDots" color="#FFAF00" height={80} width={80} />
+						<h3>Uploading trip ...</h3>
 					</div>
 				</div>
 			) : (

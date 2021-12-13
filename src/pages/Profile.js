@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
 import Nav from '../components/Structure/Nav/Nav';
+import Loader from 'react-loader-spinner';
 import Footer from '../components/Structure/Footer';
 
 import { API } from '../config/api';
@@ -39,7 +40,9 @@ const Profile = () => {
 		}
 	};
 
+	const [isLoading, setIsloading] = useState(false);
 	const handleUpload = async () => {
+		setIsloading(true);
 		try {
 			const config = {
 				headers: {
@@ -50,6 +53,7 @@ const Profile = () => {
 			data.set('image', form[0], form[0].name);
 			const response = await API.patch(`/users`, data, config);
 			if (response.status === 200) {
+				setIsloading(false);
 				Swal.fire({
 					icon: 'success',
 					title: 'Success',
@@ -104,69 +108,82 @@ const Profile = () => {
 		<>
 			<Nav />
 			<div className="profile-card">
-				<div className="profile-card-container pt-3 d-flex justify-content-between">
-					<div className="personal-info">
-						<h1>Personal Info</h1>
-						<div className="p-info-card d-flex align-items-center my-auto">
-							<img src="/icons/profilepic.png" alt="" />
-							<div className="p-info-card-text ps-3">
-								<h5 classNameName="avenir mb-0">{data?.fullName}</h5>
-								<p>Full name</p>
-							</div>
-						</div>
-						<div className="p-info-card d-flex align-items-center my-auto">
-							<img src="/icons/email.png" alt="" />
-							<div className="p-info-card-text ps-3">
-								<h5 classNameName="avenir mb-0">{data?.email}</h5>
-								<p>Email</p>
-							</div>
-						</div>
-						<div className="p-info-card d-flex align-items-center my-auto">
-							<img src="/icons/phone.png" alt="" />
-							<div className="p-info-card-text ps-3">
-								<h5 classNameName="avenir mb-0">{data?.phone}</h5>
-								<p>Phone</p>
-							</div>
-						</div>
-						<div className="p-info-card d-flex align-items-center my-auto">
-							<img className="me-1" src="/icons/location.png" alt="" />
-							<div className="p-info-card-text ps-3">
-								<h5 classNameName="avenir mb-0">{data?.address}</h5>
-								<p>Address</p>
-							</div>
-						</div>
-					</div>
-					<div className="profile-image">
-						<label htmlFor="image">
-							<img
-								className="box pointer"
-								src={
-									preview !== null
-										? preview
-										: data?.profilePicture !== null
-										? data?.profilePicture
-										: '/images/Avatar.png'
-								}
-								alt=""
+				{isLoading ? (
+					<div className="container">
+						<div className="d-flex justify-content-center align-items-center">
+							<Loader
+								type="ThreeDots"
+								color="#FFAF00"
+								height={320}
+								width={80}
 							/>
-						</label>
-						<div>
-							<input
-								type="file"
-								id="image"
-								className="pointer avenir-thin fs-6 pointer a filestyle"
-								name="image"
-								onChange={handleOnChange}
-							></input>
 						</div>
-						<button
-							className="change-profile-btn avenir-thin"
-							onClick={handleUpload}
-						>
-							Upload
-						</button>
 					</div>
-				</div>
+				) : (
+					<div className="profile-card-container pt-3 d-flex justify-content-between">
+						<div className="personal-info">
+							<h1>Personal Info</h1>
+							<div className="p-info-card d-flex align-items-center my-auto">
+								<img src="/icons/profilepic.png" alt="" />
+								<div className="p-info-card-text ps-3">
+									<h5 classNameName="avenir mb-0">{data?.fullName}</h5>
+									<p>Full name</p>
+								</div>
+							</div>
+							<div className="p-info-card d-flex align-items-center my-auto">
+								<img src="/icons/email.png" alt="" />
+								<div className="p-info-card-text ps-3">
+									<h5 classNameName="avenir mb-0">{data?.email}</h5>
+									<p>Email</p>
+								</div>
+							</div>
+							<div className="p-info-card d-flex align-items-center my-auto">
+								<img src="/icons/phone.png" alt="" />
+								<div className="p-info-card-text ps-3">
+									<h5 classNameName="avenir mb-0">{data?.phone}</h5>
+									<p>Phone</p>
+								</div>
+							</div>
+							<div className="p-info-card d-flex align-items-center my-auto">
+								<img className="me-1" src="/icons/location.png" alt="" />
+								<div className="p-info-card-text ps-3">
+									<h5 classNameName="avenir mb-0">{data?.address}</h5>
+									<p>Address</p>
+								</div>
+							</div>
+						</div>
+						<div className="profile-image">
+							<label htmlFor="image">
+								<img
+									className="box pointer"
+									src={
+										preview !== null
+											? preview
+											: data?.profilePicture !== null
+											? data?.profilePicture
+											: '/images/Avatar.png'
+									}
+									alt=""
+								/>
+							</label>
+							<div>
+								<input
+									type="file"
+									id="image"
+									className="pointer avenir-thin fs-6 pointer a filestyle"
+									name="image"
+									onChange={handleOnChange}
+								></input>
+							</div>
+							<button
+								className="change-profile-btn avenir-thin"
+								onClick={handleUpload}
+							>
+								Upload
+							</button>
+						</div>
+					</div>
+				)}
 			</div>
 			<div className="profile-container">
 				<h1>History Trip</h1>

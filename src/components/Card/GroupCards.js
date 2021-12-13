@@ -102,7 +102,6 @@ const GroupCards = ({ search }) => {
 											?.toLowerCase()
 											.includes(search.toLowerCase())
 								)
-								.reverse()
 								.map(trip => (
 									<div
 										className={
