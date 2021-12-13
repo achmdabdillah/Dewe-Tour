@@ -63,9 +63,9 @@ const AddTrip = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleOnSubmit = async e => {
+		e.preventDefault();
+		setIsLoading(true);
 		try {
-			e.preventDefault();
-
 			const config = {
 				headers: {
 					'Content-Type': 'multipart/form-data',
@@ -92,7 +92,6 @@ const AddTrip = () => {
 
 			// Insert data trip to database here ...
 			const response = await API.post('/trips', formData, config);
-			setIsLoading(true);
 			if (response?.status === 200) {
 				Swal.fire({
 					icon: 'success',
