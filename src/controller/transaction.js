@@ -1,5 +1,6 @@
 const { transaction, trip, country, user } = require('../../models');
 const Joi = require('joi');
+const cloudinary = require('../thirdparty/cloudinary');
 
 exports.addTransaction = async (req, res) => {
 	// validation schema
@@ -119,13 +120,6 @@ exports.getTransactions = async (req, res) => {
 			},
 		});
 
-		transactions.map(item => {
-			if (item.attachment !== null) {
-				item.attachment = `http://localhost:5000/uploads/payment/${item.attachment}`;
-			}
-			return;
-		});
-
 		res.status(200).send({
 			status: 'success',
 			data: {
@@ -184,13 +178,6 @@ exports.getTransaction = async (req, res) => {
 			},
 		});
 
-		data.map(item => {
-			if (item.attachment !== null) {
-				item.attachment = `http://localhost:5000/uploads/payment/${item.attachment}`;
-			}
-			return;
-		});
-
 		res.send({
 			status: 'success',
 			data,
@@ -216,7 +203,11 @@ exports.updateTransaction = async (req, res) => {
 			},
 		});
 
-		const attachment = req.file ? req.file.filename : oldData.attachment;
+		const ImgURL = await cloudinary.uploader.upload(req.file.path, {
+			folder: 'dewe_tour/profilePicture',
+		});
+
+		const attachment = req.file ? ImgURL.secure_url : oldData.attachment;
 		await transaction.update(
 			{
 				...req.body,
