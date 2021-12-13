@@ -71,13 +71,14 @@ exports.updateUser = async (req, res) => {
 		});
 		oldUser = JSON.parse(JSON.stringify(oldUser));
 
-		const imgUrl = await cloudinary.uploader.upload(req.file?.path, {
+		console.log(req.file);
+		const newImgURL = await cloudinary.uploader.upload(req.file.path, {
 			folder: 'dewe_tour/profilePicture',
 		});
 
-		console.log(imgUrl.secure_url);
+		console.log(newImgURL);
 
-		const profilePicture = req.file ? imgUrl : oldUser.profilePicture;
+		const profilePicture = req.file ? newImgURL : oldUser.profilePicture;
 		await user.update(
 			{
 				...req.body,
