@@ -128,9 +128,6 @@ exports.login = async (req, res) => {
 			process.env.ACCESS_TOKEN_SECRET
 		);
 
-		if (userExist.profilePicture !== null) {
-			userExist.profilePicture = `http://localhost:5000/uploads/profilePic/${userExist.profilePicture}`;
-		}
 		res.status(200).send({
 			status: 'success',
 			data: {
@@ -170,9 +167,6 @@ exports.checkAuth = async (req, res) => {
 			});
 		}
 
-		if (dataUser.profilePicture !== null) {
-			dataUser.profilePicture = `http://localhost:5000/uploads/profilePic/${dataUser.profilePicture}`;
-		}
 		res.send({
 			status: 'success',
 			data: {

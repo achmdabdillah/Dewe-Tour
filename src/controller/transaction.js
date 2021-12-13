@@ -204,7 +204,7 @@ exports.updateTransaction = async (req, res) => {
 		});
 
 		const ImgURL = await cloudinary.uploader.upload(req.file.path, {
-			folder: 'dewe_tour/profilePicture',
+			folder: 'dewe_tour/paymentProof',
 		});
 
 		const attachment = req.file ? ImgURL.secure_url : oldData.attachment;
