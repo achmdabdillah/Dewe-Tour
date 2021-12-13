@@ -1,4 +1,5 @@
 const { user } = require('../../models');
+const cloudinary = require('../thirdparty/cloudinary');
 
 exports.getUsers = async (req, res) => {
 	try {
@@ -70,9 +71,13 @@ exports.updateUser = async (req, res) => {
 		});
 		oldUser = JSON.parse(JSON.stringify(oldUser));
 
-		const profilePicture = req.file
-			? req.file.filename
-			: oldUser.profilePicture;
+		const imgUrl = await cloudinary.uploader.upload(req.file?.path, {
+			folder: 'dewe_tour/profilePicture',
+		});
+
+		console.log(imgUrl.secure_url);
+
+		const profilePicture = req.file ? imgUrl : oldUser.profilePicture;
 		await user.update(
 			{
 				...req.body,
