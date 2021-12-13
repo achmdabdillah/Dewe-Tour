@@ -15,7 +15,6 @@ const UserDropdown = () => {
 	};
 
 	const profile = state?.user?.profilePicture;
-	console.log(state);
 	return (
 		<ul className="navbar-nav">
 			<li className="nav-item dropdown">
