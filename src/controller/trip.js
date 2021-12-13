@@ -29,7 +29,7 @@ exports.addTrip = async (req, res) => {
 			imagesURL.push(result.secure_url);
 		}
 		imagesURL = JSON.stringify(imagesURL);
-		console.log(imagesURL.map(item => item));
+		console.log(imagesURL);
 
 		const newTrip = await trip.create({
 			...req.body,
