@@ -92,7 +92,7 @@ exports.updateUser = async (req, res) => {
 				id: idUser,
 			},
 			attributes: {
-				exclude: ['createdAt', 'updatedAt', 'password'],
+				exclude: ['createdAt', 'password', 'updatedAt'],
 			},
 		});
 		res.status(200).send({
