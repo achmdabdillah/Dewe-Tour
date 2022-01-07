@@ -247,7 +247,9 @@ const Payment = () => {
 										Your payment will be confirmed within 1 x 24 hours To see
 										orders click
 										<Link to="/profile">
-											<strong className="pointer ms-1">Here</strong>
+											<strong className="pointer ms-1" data-bs-dismiss="modal">
+												Here
+											</strong>
 										</Link>{' '}
 										thank you
 									</p>

@@ -50,7 +50,7 @@ const AdminDropdown = () => {
 					<div className="relative">
 						<img className="box-sm circle" src="/images/Avatar.png" alt="" />
 						<div
-							class={
+							className={
 								notifCount !== 0 ? 'notifCounterProfile avenir' : 'filestyle'
 							}
 						>
@@ -68,7 +68,7 @@ const AdminDropdown = () => {
 					</li>
 					<li onClick={handleToTransactions} className="trip pointer relative">
 						<div
-							class={
+							className={
 								notifCount !== 0 ? 'notifCounterProfile avenir' : 'filestyle'
 							}
 						>

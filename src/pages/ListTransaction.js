@@ -82,6 +82,7 @@ const ListTransaction = () => {
 			};
 
 			const statusUpdate = JSON.stringify({ status });
+			console.log(statusUpdate);
 			if (
 				status === 'Approved' &&
 				detailModal.quotaFilled + qty <= detailModal.quota
