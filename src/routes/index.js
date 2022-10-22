@@ -31,6 +31,7 @@ const {
 	getTransactions,
 	getTransaction,
 	updateTransaction,
+	updateTransactionStatus,
 } = require('../controller/transaction');
 
 // ------------------------------------------------MIDDLEWARES--------------------------------------------------
@@ -74,6 +75,9 @@ router.patch(
 	auth,
 	uploadImage('image', 'payment'),
 	updateTransaction
+);
+router.patch(
+	'/transactionstatus/:id', auth, updateTransactionStatus
 );
 
 module.exports = router;

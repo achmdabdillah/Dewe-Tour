@@ -194,6 +194,7 @@ exports.getTransaction = async (req, res) => {
 exports.updateTransaction = async (req, res) => {
 	try {
 		const { id } = req.params;
+		console.log(req)
 		const oldData = await transaction.findOne({
 			where: {
 				id,
@@ -208,6 +209,67 @@ exports.updateTransaction = async (req, res) => {
 		});
 
 		const attachment = req.file ? ImgURL.secure_url : oldData.attachment;
+		await transaction.update(
+			{
+				...req.body,
+				attachment,
+			},
+			{
+				where: {
+					id,
+				},
+			}
+		);
+
+		const newTransaction = await transaction.findOne({
+			where: {
+				id,
+			},
+			include: {
+				model: trip,
+				as: 'trip',
+				include: {
+					model: country,
+					as: 'country',
+					attributes: {
+						exclude: ['createdAt', 'updatedAt'],
+					},
+				},
+				attributes: {
+					exclude: ['createdAt', 'updatedAt', 'idCountry'],
+				},
+			},
+			attributes: {
+				exclude: ['createdAt', 'updatedAt', 'idCountry', 'idUser'],
+			},
+		});
+
+		res.status(200).send({
+			status: 'success',
+			data: newTransaction,
+		});
+	} catch (error) {
+		console.log(error);
+		res.status(500).send({
+			status: 'failed',
+			message: 'Server Error',
+		});
+	}
+};
+exports.updateTransactionStatus = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const oldData = await transaction.findOne({
+			where: {
+				id,
+			},
+			attributes: {
+				exclude: ['updatedAt', 'idCountry', 'idUser'],
+			},
+		});
+
+
+		const {attachment} = oldData;
 		await transaction.update(
 			{
 				...req.body,
