@@ -1,7 +1,7 @@
 // import package here
 const multer = require('multer');
 
-exports.uploadImage = (image, path) => {
+exports.uploadImage = image => {
 	// define storage destination
 	const storage = multer.diskStorage({
 		filename: function (req, file, cb) {
