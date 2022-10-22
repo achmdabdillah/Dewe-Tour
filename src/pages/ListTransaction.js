@@ -87,7 +87,7 @@ const ListTransaction = () => {
 				status === 'Approved' &&
 				detailModal.quotaFilled + qty <= detailModal.quota
 			) {
-				await API.patch(`/transactions/${id}`, statusUpdate, config);
+				await API.patch(`/transactionstatus/${id}`, statusUpdate, config);
 
 				const addQuota = JSON.stringify({
 					quotaFilled: detailModal?.quotaFilled + qty,
@@ -97,10 +97,10 @@ const ListTransaction = () => {
 				status === 'Cancelled' &&
 				detailModal.quotaFilled + qty <= detailModal.quota
 			) {
-				await API.patch(`/transactions/${id}`, statusUpdate, config);
+				await API.patch(`/transactionstatus/${id}`, statusUpdate, config);
 			} else {
 				const cancel = JSON.stringify({ status: 'Cancelled' });
-				await API.patch(`/transactions/${id}`, cancel, config);
+				await API.patch(`/transactionstatus/${id}`, cancel, config);
 				Swal.fire({
 					icon: 'error',
 					title: 'Failed',
